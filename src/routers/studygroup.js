@@ -151,7 +151,9 @@ router.get('/studygroups', auth, async (req, res) => {
         options.skip = req.query.skip
     }
 
+    /*console.log(options.owner)
     options.owner = req.user._id
+    console.log(options.owner)*/
 
     try {
         const results = await StudyGroup.find(filter, projection, options)
