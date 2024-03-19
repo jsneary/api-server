@@ -105,12 +105,28 @@ router.get('/studygroups', auth, async (req, res) => {
     }
     const options = {}
 
-    filter.$and.push({
+    /*filter.$and.push({
         $or: [
             { is_public: true },
             { owner: req.user._id }
         ]
-    })
+    })*/
+    if ( req.query.hasOwnProperty('mine') ){
+        filter.$and.push({
+            $or: [
+                //{ is_public: true },
+                { owner: req.user._id }
+            ]
+        })
+    }
+    else {
+        filter.$and.push({
+            $or: [
+                { is_public: true },
+                { owner: req.user._id }
+            ]
+        })
+    }
 
     if (req.query.hasOwnProperty('ongoing')) {
         const now = new Date();
