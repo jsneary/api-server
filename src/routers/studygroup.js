@@ -181,7 +181,7 @@ router.get('/studygroups', auth, async (req, res) => {
 
 })
 
-router.delete('studygroup/:id', auth, async (req, res) => {
+router.delete('/studygroup/:id', auth, async (req, res) => {
     const user = req.user;
     const studyGroupID = req.params.id;
     let studyGroup = null;
