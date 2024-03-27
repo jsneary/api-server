@@ -86,6 +86,80 @@ router.patch('/studygroup/:id', auth, async (req, res) => {
     }
 })
 
+router.patch('/studygroup/:id/participants', auth, async (req, res) => {
+    console.log(req.user)
+    console.log("REQUEST")
+   
+
+    const user = req.user
+    const studyGroupID = req.params.id
+    const mods = req.body
+    let studygroup = undefined
+    if (!mongoose.isValidObjectId(studyGroupID)) {
+        res.status(400).send("Invalid object id")
+        return
+    }
+
+    console.log(req.params.id)
+    console.log("User: " + user)
+
+    try {
+        studygroup = await StudyGroup.findById(studyGroupID)
+        if (!studygroup) {
+            res.status(400).send('Invalid study group id')
+            return
+        }
+    }
+    catch (e) {
+        res.status(500).send('Error finding study group')
+        return
+    }
+    console.log(studygroup)
+
+
+
+    if ( req.query.hasOwnProperty('add') ){
+        console.log("HAS PROPERTY ADD")
+        //studygroup.participants.push(req.params.id)
+    }
+    console.log(req.body)
+    console.log("Mods: " + mods)
+
+
+    const props = Object.keys(mods)
+    console.log("Props: " + props)
+    const modifiable = [
+        "participants"
+    ]
+
+    const isValid = props.every((prop) => modifiable.includes(prop))
+    if (!isValid) {
+        res.status(400).send("One or more invalid properties")
+        return
+    }
+    try {
+        if (studygroup.is_public) {
+            console.log("is public")
+            if (req.query.hasOwnProperty('add')) {
+                studygroup.participants.indexOf(req.params.id) === -1 ? studygroup.participants.push(req.params.id) : console.log("ID already in array")
+            }
+            else if (req.query.hasOwnProperty('remove')) {
+                studygroup.participants.splice(studygroup.participants.indexOf(req.params.id), 1)
+            }
+        }
+    // set new values
+        //props.forEach((prop) => studygroup[prop] = mods[prop])
+        //studygroup.participants.push(req.params.id)
+        
+        await studygroup.save()
+        res.send(studygroup)
+    }
+    catch (e) {
+        console.log(e)
+        res.status(500).send("Error saving study group")
+    }
+})
+
 router.get('/studygroups', auth, async (req, res) => {
     console.log('incoming request')
     let filter = {
