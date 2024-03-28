@@ -65,7 +65,8 @@ router.patch('/studygroup/:id', auth, async (req, res) => {
         "meeting_times",
         "description",
         "school",
-        "course_number"
+        "course_number",
+        "participants"
     ]
     // check that all the props are modifable
     const isValid = props.every((prop) => modifiable.includes(prop))
