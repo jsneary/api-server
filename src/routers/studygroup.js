@@ -176,7 +176,7 @@ router.get('/studygroups', auth, async (req, res) => {
         meeting_times: 1,
         school: 1,
         course_number: 1,
-        participants
+        participants: 1,
     }
     const options = {}
 
