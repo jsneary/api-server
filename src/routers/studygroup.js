@@ -122,7 +122,7 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
         console.log("HAS PROPERTY ADD")
         //studygroup.participants.push(req.params.id)
     }
-    console.log(req.body)
+    console.log(req.body.participants)
     console.log("Mods: " + mods)
 
 
@@ -141,10 +141,10 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
         if (studygroup.is_public) {
             console.log("is public")
             if (req.query.hasOwnProperty('add')) {
-                studygroup.participants.indexOf(req.params.id) === -1 ? studygroup.participants.push(req.params.id) : console.log("ID already in array")
+                studygroup.participants.indexOf(req.body.participants) === -1 ? studygroup.participants.push(req.body.participants) : console.log("ID already in array")
             }
             else if (req.query.hasOwnProperty('remove')) {
-                studygroup.participants.splice(studygroup.participants.indexOf(req.params.id), 1)
+                studygroup.participants.splice(studygroup.participants.indexOf(req.body.participants), 1)
             }
         }
     // set new values
