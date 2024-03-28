@@ -140,12 +140,15 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
     try {
         if (studygroup.is_public) {
             console.log("is public")
-            if (req.query.hasOwnProperty('add')) {
+            if (req.query.hasOwnProperty('add') && studygroup.participants.length < studygroup.max_participants) {
                 studygroup.participants.indexOf(req.body.participants) === -1 ? studygroup.participants.push(req.body.participants) : console.log("ID already in array")
             }
             else if (req.query.hasOwnProperty('remove')) {
                 studygroup.participants.splice(studygroup.participants.indexOf(req.body.participants), 1)
             }
+        }
+        else if (req.query.hasOwnProperty('remove')) {
+            studygroup.participants.splice(studygroup.participants.indexOf(req.body.participants), 1)
         }
     // set new values
         //props.forEach((prop) => studygroup[prop] = mods[prop])
