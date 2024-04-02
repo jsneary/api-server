@@ -206,15 +206,15 @@ router.get('/studygroups', auth, async (req, res) => {
             ]
         })
     }
-    /*if (req.query.hasOwnProperty('joined')) {
-        console.log("HERE")
+
+    if ( req.query.hasOwnProperty('member') ){
         filter.$and.push({
             $or: [
-                { participants: participants.includes(req.user._id) },
+                { participants: req.user._id },
                 { owner: req.user._id }
             ]
         })
-    }*/
+    }
 
     if (req.query.hasOwnProperty('ongoing')) {
         const now = new Date();
@@ -258,12 +258,17 @@ router.get('/studygroups', auth, async (req, res) => {
     /*console.log(options.owner)
     options.owner = req.user._id
     console.log(options.owner)*/
-
+    console.log("logging working")
     try {
         const results = await StudyGroup.find(filter, projection, options)
-        let modifiedResults = []
-        if (req.query.hasOwnProperty('member')) {
+        /*let modifiedResults = []
+        if (!req.query.hasOwnProperty('member')) {
             for (let i = 0; i < results.length; i++) {
+                if (results[i].participants.includes(req.user._id) || results[i].owner.equals(req.user._id)) {
+                    console.log("INCLUDED")
+                    modifiedResults.push(results[i])
+                }
+                
                 if (results[i].owner.equals(req.user._id)) {
                     modifiedResults.push(results[i])
                 }
@@ -283,8 +288,8 @@ router.get('/studygroups', auth, async (req, res) => {
         }
         else {
             modifiedResults = results;
-        }
-        res.send(modifiedResults)
+        }*/
+        res.send(results)
     } catch (e) {
         console.log(e)
         res.status(500).send()
