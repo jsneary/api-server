@@ -140,6 +140,7 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
     try {
         if (studygroup.is_public) {
             console.log("is public")
+            console.log(studygroup.participants.length)
             if (req.query.hasOwnProperty('add') && studygroup.participants.length < studygroup.max_participants) {
                 studygroup.participants.indexOf(req.body.participants) === -1 ? studygroup.participants.push(req.body.participants) : console.log("ID already in array")
             }
@@ -205,6 +206,15 @@ router.get('/studygroups', auth, async (req, res) => {
             ]
         })
     }
+    /*if (req.query.hasOwnProperty('joined')) {
+        console.log("HERE")
+        filter.$and.push({
+            $or: [
+                { participants: participants.includes(req.user._id) },
+                { owner: req.user._id }
+            ]
+        })
+    }*/
 
     if (req.query.hasOwnProperty('ongoing')) {
         const now = new Date();
@@ -251,7 +261,33 @@ router.get('/studygroups', auth, async (req, res) => {
 
     try {
         const results = await StudyGroup.find(filter, projection, options)
-        res.send(results)
+        //console.log(results)
+        let modifiedResults = []
+        if (req.query.hasOwnProperty('joined')) {
+            for (let i = 0; i < results.length; i++) {
+
+                
+                if (results[i].owner.equals(req.user._id)) {
+                    modifiedResults.push(results[i])
+                }
+                else {
+                    let length = results[i].participants.length
+                    for (let j = 0; j < length; j++) {
+                        console.log("Participants")
+                        console.log(results[i].participants[j])
+                        console.log(req.user._id)
+                        if (results[i].participants[j].equals(req.user._id) || results[i].owner.equals(req.user._id)) {
+                            modifiedResults.push(results[i])
+                            console.log("True")
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            modifiedResults = results;
+        }
+        res.send(modifiedResults)
     } catch (e) {
         console.log(e)
         res.status(500).send()
