@@ -261,12 +261,9 @@ router.get('/studygroups', auth, async (req, res) => {
 
     try {
         const results = await StudyGroup.find(filter, projection, options)
-        //console.log(results)
         let modifiedResults = []
-        if (req.query.hasOwnProperty('joined')) {
+        if (req.query.hasOwnProperty('member')) {
             for (let i = 0; i < results.length; i++) {
-
-                
                 if (results[i].owner.equals(req.user._id)) {
                     modifiedResults.push(results[i])
                 }
