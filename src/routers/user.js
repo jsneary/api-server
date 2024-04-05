@@ -79,4 +79,22 @@ router.get('/user/verification', auth, async (req, res) => {
   res.send()
 })
 
+router.get('/user/:id', auth, async (req, res) => {
+  console.log(req.user)
+  console.log(req.body.username)
+  console.log(req.params.id)
+  try {
+    const user = await User.findById(req.params.id)
+    console.log("user:")
+    console.log(user)
+    res.status(200).send({user})
+  }
+  catch(e){
+    console.log("Unable to find user")
+  }
+
+  
+  
+})
+
 module.exports = router

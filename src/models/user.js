@@ -46,7 +46,8 @@ const userSchema = new Schema({
     },
     majors: [String],
     tokens: [String],
-    profile_pic: Buffer
+    profile_pic: Buffer,
+    notification: [String]
 })
 
 userSchema.pre('save', async function(next) {
@@ -71,6 +72,21 @@ userSchema.statics.findByCredentials = async (email, password) => {
      }
      return user;
  };
+
+/*userSchema.statics.findByID = async (id) => {
+    
+    const user = await User.findOne({ id });
+    console.log("HERE")
+    console.log(user)
+     if (!user) {
+         throw new Error("Unable to find user...");
+     }
+     /*const isMatch = await bcrypt.compare(password, user.password);
+     if (!isMatch) {
+         throw new Error("Unable to find user - no match");
+     }
+     return user;
+};*/
 
 userSchema.methods.toJSON = function() {
     const user = this
