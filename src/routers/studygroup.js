@@ -96,7 +96,7 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
     const mods = req.body
     let studygroup = undefined
     if (!mongoose.isValidObjectId(studyGroupID)) {
-        res.status(400).send("Invalid object id")
+        res.status(420).send("Invalid object id")
         return
     }
 
