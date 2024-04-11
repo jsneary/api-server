@@ -47,7 +47,12 @@ const userSchema = new Schema({
     majors: [String],
     tokens: [String],
     profile_pic: Buffer,
-    notification: [String]
+    notification: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Notification'
+        }
+    ]
 })
 
 userSchema.pre('save', async function(next) {
