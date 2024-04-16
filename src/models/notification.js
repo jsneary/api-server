@@ -11,6 +11,11 @@ const notificationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'StudyGroup'
       },
+      senderId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      },
       recieverId: {
         type: Schema.Types.ObjectId,
         ref: 'User',

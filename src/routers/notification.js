@@ -5,7 +5,9 @@ const Notification = require('../models/notification')
 const User = require('../models/user')
 
 router.post('/notification', auth, async (req, res) => { 
+    console.log("BODY:")
     console.log(req.body) 
+    req.body.senderId = req.user._id
     
     //user.Notification.push()
     try {
