@@ -31,4 +31,32 @@ router.post('/notification', auth, async (req, res) => {
     
 }) 
 
+router.get('/notifications', auth, async (req, res) => { 
+    console.log("BODY:")
+    console.log(req.body)
+    console.log(req.user._id) 
+    
+    try {
+        const notifications = await Notification.find({ recieverId: req.user._id })
+
+        res.status(200).send({notifications})
+
+        /*const userID = req.body.recieverId
+        reciever = await User.findById(userID)
+        console.log(reciever)
+        reciever.notification.push(notification._id)
+
+        console.log(reciever)
+
+        await reciever.save()
+        await notification.save()
+        res.status(201).send()*/
+    }
+    catch (e) {
+        console.log(e)
+        console.log("failed to find notification")
+    }
+    
+})
+
 module.exports = router
