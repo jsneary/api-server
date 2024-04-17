@@ -43,16 +43,6 @@ router.get('/notifications', auth, async (req, res) => {
 
         res.status(200).send({notifications})
 
-        /*const userID = req.body.recieverId
-        reciever = await User.findById(userID)
-        console.log(reciever)
-        reciever.notification.push(notification._id)
-
-        console.log(reciever)
-
-        await reciever.save()
-        await notification.save()
-        res.status(201).send()*/
     }
     catch (e) {
         console.log(e)
