@@ -139,6 +139,10 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
         return
     }
     try {
+        if (studygroup.participants.length >= studygroup.max_participants) {
+            res.status(418).send();
+            return
+        }
         if (studygroup.is_public) {
             console.log("is public")
             console.log(studygroup.participants.length)
