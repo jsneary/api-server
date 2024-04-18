@@ -30,7 +30,6 @@ router.post('/notification', auth, async (req, res) => {
         console.log(e)
         console.log("failed to save notification")
     }
-    
 }) 
 
 router.get('/notifications', auth, async (req, res) => { 

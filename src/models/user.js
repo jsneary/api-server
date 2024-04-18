@@ -52,7 +52,14 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Notification'
         }
-    ]
+    ],
+    ig_username: {
+        type: String
+    },
+    ig_password: {
+        type: String
+    }
+    
 })
 
 userSchema.pre('save', async function(next) {
